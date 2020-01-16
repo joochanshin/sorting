@@ -1,9 +1,12 @@
-let widthC = 500;
-let heightC = 500;
-
+let widthC = 1000;
+let heightC = window.innerHeight-20;
+let slider;
 
 function setup() {
   createCanvas(widthC, heightC, WEBGL);
+  slider = createSlider(10, 50, 25);
+  slider.position(10, 10);
+  slider.style('width', '80px');
 }
 
 function draw() {
@@ -13,17 +16,13 @@ function draw() {
   rotateZ(frameCount * 0.01);
   cylinder(50, 100);
   */
-  
-  let num = 10;
+
+  let num = slider.value();
 
   for(let i = 1; i <= num; i++){
   	let heightB = random(100,400);
   	let a = widthC/(2*num);
   	let widthB = 10;
-  	rect((a * i -widthB/2)-(a*num/2), heightC/2-heightB, widthB, heightB);
+  	rect(((a * i) - (widthB/2)) - (a*num/2), heightC/2-heightB, widthB, heightB);
   }
-  /*
-	-250 | 0 | 250
-	-250 | -125 | 0 | 125 | 250
-  */
 }
