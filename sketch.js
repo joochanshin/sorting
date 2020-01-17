@@ -6,7 +6,7 @@ let heightB = 0;
 let num = 0;
 let check = 0;
 
-let bubbleBool = false;
+let bubbleBool = true;
 
 function setup() {
   createCanvas(widthC, heightC, WEBGL);
@@ -37,6 +37,8 @@ function draw() {
   num = slider.value();
   if(check !== num){
   	randNum();
+  	fill("white");
+  	bubbleBool = true;
   }
 
   for(let i = 1; i <= num; i++){
@@ -74,7 +76,6 @@ function randNum(){
 }
 
 function bubbleSort() {
-  bubbleBool = true;
   var length = arr.length - 1;
   do {
     var swapped = false;
@@ -84,12 +85,7 @@ function bubbleSort() {
         arr[i] = arr[i+1];
         arr[i+1] = temp;
 
-        let a = widthC/(2*num);
-	  	let widthB = 10;
-	  	if (num > 50){
-	  		widthB = 5;
-	  	}
-  		rect(((a * i) - (widthB/2)) - (a*num/2), heightC/2-arr[i-1], widthB, arr[i-1]);
+  		updatePixels();
         swapped = true;
       }
     }
@@ -97,4 +93,51 @@ function bubbleSort() {
   while(swapped === true);
   console.log("ran bubble");
   console.log(arr);
+  if(bubbleBool){
+  	clicked();
+  }
+}//end of BubbleSort
+
+function clicked(){
+	var button = document.getElementById('bubbleSort')
+
+  button.addEventListener('click', function(){
+    return false;
+  })
+
+  var times = 1000 * num;   //Here put the number of times you want to auto submit
+  (function click(){
+    if(times == 0) return;
+    button.click();
+    times--;
+    console.log(times);
+    if(sorted(arr)){
+    	times = 0;
+    	fill("#add8e6");
+    	console.log("done!");
+    }
+    let timeSort = .5;
+    if(num === 10){
+  		timeSort = 1;
+  	}
+  	else if (num > 50 && num <= 100){
+  		timeSort = .25;
+  	}
+  	else if (num > 100 && num <= 250){
+  		timeSort = .15;
+  	}
+  	else if(num > 250){
+  		timeSort = .5;
+  	}
+    setTimeout(click, timeSort);   //Each second
+  })(); 
+}
+
+function sorted(tArr){
+	for (let i = 0; i < tArr.length - 1; i++) {
+	    if (tArr[i] > tArr[i+1]) {
+	        return false;
+	    }
+	}
+	return true;
 }
