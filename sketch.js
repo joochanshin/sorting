@@ -6,26 +6,17 @@ let heightB = 0;
 let num = 0;
 let check = 0;
 
-let bubbleBool = true;
+//-------------------------------------------------------------------------------------------------------------------
 
 function setup() {
   createCanvas(widthC, heightC, WEBGL);
-  slider = createSlider(10, 500, 49);
+  slider = createSlider(10, 500, 49);//slider values
   slider.position(10, 10);
   slider.style('width', '80px');
   randNum();
+}//end of setup
 
-  for(let i = 1; i <= num; i++){
-  	let a = widthC/(2*num);
-  	let widthB = 10;
-  	if (num > 50){
-  		widthB = 5;
-  	}
-  	rect(((a * i) - (widthB/2)) - (a*num/2), heightC/2-arr[i-1], widthB, arr[i-1]);
-  }
-
-  console.log("BubbleSort: " + arr)
-}
+//-------------------------------------------------------------------------------------------------------------------
 
 function draw() {
   background(205, 105, 94);
@@ -35,10 +26,9 @@ function draw() {
   cylinder(50, 100);
   */
   num = slider.value();
-  if(check !== num){
+  if(check !== num){//Creates a random number per slide and resets bars' colors to white
   	randNum();
   	fill("white");
-  	bubbleBool = true;
   }
 
   for(let i = 1; i <= num; i++){
@@ -58,11 +48,14 @@ function draw() {
   	}
   	else if(num > 250){
   		widthB = 1;
-  		stroke(255,255,255);
+  		stroke(255,255,255);//Changing the stroke here since the width is 1
   	}
-  	rect(((a * i) - (widthB/2)) - (a*num/2), heightC/2-arr[i-1], widthB, arr[i-1]);
+  	//bar length depends on the total number of bars
+  	rect(((a * i) - (widthB/2)) - (a*num/2), heightC/2-arr[i-1], widthB, arr[i-1]);//Dynamically create the bars with random heights
   }
-}
+}//end of draw
+
+//-------------------------------------------------------------------------------------------------------------------
 
 function randNum(){
   num = slider.value();
@@ -70,11 +63,23 @@ function randNum(){
   for(let i = 0; i < num; i++){
   	heightB = random(100,400)
   	arr[i] = heightB;
-  	console.log("randNum: " + arr[i]);
   }
   arr.length = num;
-}
+}//end of randNum
 
+//-------------------------------------------------------------------------------------------------------------------
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//||												ALL SORTING ALGO.											   ||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//-------------------------------------------------------------------------------------------------------------------
 function bubbleSort() {
   var length = arr.length - 1;
   do {
@@ -91,19 +96,21 @@ function bubbleSort() {
     }
   }
   while(swapped === true);
-  console.log("ran bubble");
-  console.log(arr);
-  if(bubbleBool){
-  	clicked();
-  }
 }//end of BubbleSort
 
-function clicked(){
-	var button = document.getElementById('bubbleSort')
+//-------------------------------------------------------------------------------------------------------------------
 
-  button.addEventListener('click', function(){
-    return false;
-  })
+function clickedBubble(){
+	var button = document.getElementById('bubbleSort');
+	clicked(button);
+}//end of clickedBubble
+
+//-------------------------------------------------------------------------------------------------------------------
+
+function clicked(button){
+	button.addEventListener('click', function(){
+    	return false;
+  	})
 
   var times = 1000 * num;   //Here put the number of times you want to auto submit
   (function click(){
@@ -113,12 +120,13 @@ function clicked(){
     console.log(times);
     if(sorted(arr)){
     	times = 0;
-    	fill("#add8e6");
+    	fill("#add8e6");//changes the fill depending when finished sorting
     	console.log("done!");
     }
     let timeSort = .5;
+    //the more bars there are, the faster it does the sorting
     if(num === 10){
-  		timeSort = 1;
+  		timeSort = 20;
   	}
   	else if (num > 50 && num <= 100){
   		timeSort = .25;
@@ -131,7 +139,9 @@ function clicked(){
   	}
     setTimeout(click, timeSort);   //Each second
   })(); 
-}
+}//end of clicked
+
+//-------------------------------------------------------------------------------------------------------------------
 
 function sorted(tArr){
 	for (let i = 0; i < tArr.length - 1; i++) {
