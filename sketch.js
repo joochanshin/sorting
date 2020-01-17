@@ -48,7 +48,12 @@ function draw() {
   	}
   	else if(num > 250){
   		widthB = 1;
-  		stroke(255,255,255);//Changing the stroke here since the width is 1
+  		if(sorted(arr)){
+  			stroke("#add8e6");
+  		}
+  		else{
+  			stroke(255,255,255);//Changing the stroke here since the width is 1
+  		}
   	}
   	//bar length depends on the total number of bars
   	rect(((a * i) - (widthB/2)) - (a*num/2), heightC/2-arr[i-1], widthB, arr[i-1]);//Dynamically create the bars with random heights
@@ -89,8 +94,7 @@ function bubbleSort() {
         var temp = arr[i];
         arr[i] = arr[i+1];
         arr[i+1] = temp;
-
-  		updatePixels();
+  		break;
         swapped = true;
       }
     }
@@ -100,10 +104,49 @@ function bubbleSort() {
 
 //-------------------------------------------------------------------------------------------------------------------
 
+function insertionSort(){
+    for (let i = 1; i < arr.length; i++) {
+        let key = arr[i];
+        let j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+            break;
+        }
+        arr[j+1] = key;
+
+    }
+}//end of InsertionSort
+
+//-------------------------------------------------------------------------------------------------------------------
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//||												END SORTING ALGO.											   ||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//||																											   ||
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//-------------------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------------------
+
 function clickedBubble(){
 	var button = document.getElementById('bubbleSort');
+	document.getElementById("iB").disabled = true;
 	clicked(button);
 }//end of clickedBubble
+
+//-------------------------------------------------------------------------------------------------------------------
+
+function clickedInsertion(){
+	var button = document.getElementById('insertionSort');
+	document.getElementById("bB").disabled = true;
+	clicked(button);
+}//end of clickedInsertion
 
 //-------------------------------------------------------------------------------------------------------------------
 
@@ -112,15 +155,18 @@ function clicked(button){
     	return false;
   	})
 
-  var times = 1000 * num;   //Here put the number of times you want to auto submit
+  var times = 1000 * num;   //Here put the number of times you want to auto onclick
   (function click(){
     if(times == 0) return;
     button.click();
     times--;
+
     console.log(times);
     if(sorted(arr)){
     	times = 0;
     	fill("#add8e6");//changes the fill depending when finished sorting
+    	document.getElementById("bB").disabled = false;
+    	document.getElementById("iB").disabled = false;
     	console.log("done!");
     }
     let timeSort = .5;
@@ -135,7 +181,7 @@ function clicked(button){
   		timeSort = .15;
   	}
   	else if(num > 250){
-  		timeSort = .5;
+  		timeSort = .05;
   	}
     setTimeout(click, timeSort);   //Each second
   })(); 
