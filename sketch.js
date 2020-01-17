@@ -144,6 +144,60 @@ function insertionSort(){
 }//end of InsertionSort
 
 //-------------------------------------------------------------------------------------------------------------------
+//
+//	Heap Sort
+//	Time complexity:
+//	Best: 		O(n log(n))
+//	Average:    O(n log(n))
+//	Worst:  	O(n log(n))
+//
+//	Space complexity:
+//	Worst: 		O(1)
+//
+//-------------------------------------------------------------------------------------------------------------------
+
+function makeHeap(arr, length, i){
+	let largest = i;
+	let left = i * 2 + 1;
+	let right = left + 1;
+
+	if(left < length && arr[left] > arr[largest]) {
+		largest = left;
+	}
+	if(right < length && arr[right] > arr[largest]){
+		largest = right;
+	}
+	if(largest !== i){
+		let temp = arr[i];
+		arr[i] = arr[largest];
+		arr[largest] = temp;
+		makeHeap(arr, length, largest);
+	}
+}
+
+function heapSort() {
+	let length = arr.length;
+	let i = Math.floor(length / 2 - 1);
+	let k = length - 1;
+
+	while(i >= 0) {
+		makeHeap(arr, length, i);
+		i--;
+	}
+	while(k >= 0) {
+		let temp = arr[0];
+		arr[0] = arr[k];
+		arr[k] = temp;
+			
+		makeHeap(arr, k, 0);
+		k--;
+	}
+	
+	
+	//console.log(arr);
+} //End of Heap Sort
+
+//-------------------------------------------------------------------------------------------------------------------
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //||																											   ||
 //||																											   ||
@@ -162,6 +216,7 @@ function insertionSort(){
 function clickedBubble(){
 	var button = document.getElementById('bubbleSort');
 	document.getElementById("iB").disabled = true;
+	document.getElementById("hB").disabled = true;
 	clicked(button);
 }//end of clickedBubble
 
@@ -170,8 +225,16 @@ function clickedBubble(){
 function clickedInsertion(){
 	var button = document.getElementById('insertionSort');
 	document.getElementById("bB").disabled = true;
+	document.getElementById("hB").disabled = true;
 	clicked(button);
 }//end of clickedInsertion
+
+function clickedHeap(){
+	var button = document.getElementById('heapSort');
+	document.getElementById("bB").disabled = true;
+	document.getElementById("iB").disabled = true;
+	clicked(button);
+}//end of clickedHeap 
 
 //-------------------------------------------------------------------------------------------------------------------
 
@@ -192,6 +255,7 @@ function clicked(button){
     	fill("#add8e6");//changes the fill depending when finished sorting
     	document.getElementById("bB").disabled = false;
     	document.getElementById("iB").disabled = false;
+    	document.getElementById("hB").disabled = false;
     	console.log("done!");
     }
     let timeSort = .5;
@@ -220,5 +284,6 @@ function sorted(tArr){
 	        return false;
 	    }
 	}
+	console.log("sorted");
 	return true;
 }
